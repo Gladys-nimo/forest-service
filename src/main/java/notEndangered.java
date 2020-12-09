@@ -11,7 +11,7 @@ public class notEndangered extends Animal{
     }
 
     public static Animal find(int id) {
-        try (Connection con = DataBase.sql2o.open()) {
+        try (Connection con = DB.sql2o.open()) {
             String sql = "SELECT * FROM animals where id=:id";
             Animal animal = con.createQuery(sql)
                     .addParameter("id", id)
@@ -21,7 +21,7 @@ public class notEndangered extends Animal{
     }
         public static List<notEndangered> all () {
             String sql = "SELECT * FROM animals WHERE type = 'Not Endangered'";
-            try (Connection con = DataBase.sql2o.open()) {
+            try (Connection con = DB.sql2o.open()) {
                 return con.createQuery(sql)
                         .throwOnMappingFailure(false)
                         .executeAndFetch(notEndangered.class);

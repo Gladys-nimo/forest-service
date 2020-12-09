@@ -17,6 +17,14 @@ public class Sightings {
 
     }
 
+//    public static Map<Object, Object> getAllSightings() {
+//        return allsightings;
+//    }
+
+//    public static void setAllSightings(Map<Object, Object> allsightings) {
+//        Sightings.allsightings = allSightings;
+//    }
+
 //    public static Map<Object, Object> getallsightings() {
 //    }
 

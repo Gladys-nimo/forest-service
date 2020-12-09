@@ -4,7 +4,6 @@ import java.util.List;
 
 public class Endangered extends Animal {
 
-//    private static  Endangered;
     private String health;
     private String age;
 
@@ -18,13 +17,12 @@ public class Endangered extends Animal {
 
     public static List<Endangered> allEndAnimals() {
         String sql = "SELECT * FROM animals where type='endangered'";
-        try (Connection con = DataBase.sql2o.open()) {
+        try(Connection con = DB.sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Endangered.class);
         }
     }
-
     public void save() {
-        try (Connection con = DataBase.sql2o.open()) {
+        try (Connection con = DB.sql2o.open()) {
             String sql = "INSERT INTO animals (name, type, health, age) VALUES (:name, :type, :health, :age)";
             this.id = (int) con.createQuery(sql, true)
                     .addParameter("name", this.name)
@@ -37,23 +35,18 @@ public class Endangered extends Animal {
     }
 
     public int getId() {
-
         return id;
     }
-
     public String getHealth() {
-
         return health;
     }
-
     public String getAge() {
-
         return age;
     }
 
 
-    public static Endangered find(int id) {
-        try (Connection con = DataBase.sql2o.open()) {
+    public static Endangered Endangeredfind(int id) {
+        try (Connection con = DB.sql2o.open()) {
             String sql = "SELECT * FROM animals where id=:id";
             Endangered endangered = con.createQuery(sql)
                     .addParameter("id", id)
@@ -63,4 +56,5 @@ public class Endangered extends Animal {
         }
     }
 }
+
 

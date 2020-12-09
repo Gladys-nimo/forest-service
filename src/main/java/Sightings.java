@@ -1,6 +1,7 @@
 import org.sql2o.Connection;
 
 import java.util.List;
+import java.util.Map;
 
 public class Sightings {
     private int animalId;
@@ -15,6 +16,13 @@ public class Sightings {
 
 
     }
+
+//    public static Map<Object, Object> getallsightings() {
+//    }
+
+//    public static Map<Object, Object> getallsightings() {
+//    }
+
     public int getAnimalId() {
         return animalId;
     }
@@ -32,7 +40,7 @@ public class Sightings {
     }
 
     public static Sightings find(int id) {
-        try(Connection con = DataBase.sql2o.open()) {
+        try(Connection con = DB.sql2o.open()) {
             String sql = "SELECT * FROM sightings where id=:id";
             Sightings sightings= con.createQuery(sql)
                     .addParameter("id", id)
@@ -42,14 +50,14 @@ public class Sightings {
     }
     public static List<Sightings> getAllSightings() {
         String sql = "SELECT * FROM sightings";
-        try(Connection con = DataBase.sql2o.open()) {
+        try(Connection con = DB.sql2o.open()) {
             return con.createQuery(sql)
                     .executeAndFetch(Sightings.class);
         }
     }
 
     public void save() {
-        try(Connection con = DataBase.sql2o.open())  {
+        try(Connection con = DB.sql2o.open())  {
             String sql = "INSERT INTO sightings (ranger, location, animalId) VALUES (:ranger, :location, :animalId)";
             this.id = (int) con.createQuery(sql, true)
                     .addParameter("ranger",this.ranger)

@@ -4,8 +4,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class EndangeredTest {
-//    @Rule
-//    public DataBaseRule database = new DatabaseRule;
+    @Rule
+    public DatabaseRule database = new DatabaseRule();
 
     @Test
     public void instantiatesAnimal_true() {

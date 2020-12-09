@@ -61,6 +61,7 @@ public class App {
             else {
                 String health = request.queryParams("age");
 //                Endangered endangered = new Endangered(name,age, health);
+//                Endangered.save();
             }
 
             response.redirect("/Animals");
@@ -68,7 +69,7 @@ public class App {
         }, new HandlebarsTemplateEngine());
         get("/Animals-form", (request, response) -> {
             Map<String, Object> model = new HashMap<String, Object>();
-            return new ModelAndView(model, "animals.hbs");
+            return new ModelAndView(model, "animal.hbs");
         }, new HandlebarsTemplateEngine());
     }
 

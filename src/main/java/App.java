@@ -8,7 +8,16 @@ import java.util.Map;
 import static spark.Spark.*;
 
 public class App {
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567;
+    }
     public static void main(String[] args) {
+
+        port(getHerokuAssignedPort());
         staticFileLocation("/public");
 
         get("/", (request, response) -> {
@@ -16,7 +25,7 @@ public class App {
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
-        get("/sightings-form", (request, response) -> {
+        get("/sightings", (request, response) -> {
             Map<String, Object> model = new HashMap< String, Object>();
             return new ModelAndView(model, "sightings.hbs");
         }, new HandlebarsTemplateEngine());
@@ -25,7 +34,7 @@ public class App {
             Map<String, Object> model = new HashMap<String, Object>();
             List<Sightings> sightings = Sightings.getAllSightings();
             model.put("sightings", sightings);
-            return new ModelAndView(model, "display-sightings.hbs");
+            return new ModelAndView(model, "sightings-display.hbs");
 
         }, new HandlebarsTemplateEngine());
 
@@ -40,7 +49,7 @@ public class App {
             return null;
         }, new HandlebarsTemplateEngine());
 
-        get("/Animals", (request, response) -> {
+        get("/display-animal", (request, response) -> {
             Map<String, Object> model = new HashMap<String, Object>();
             List<Endangered> endangered = Endangered.allEndAnimals();
             List<notEndangered> notendangered = notEndangered.all();
@@ -49,7 +58,7 @@ public class App {
             return new ModelAndView(model, "display-animal.hbs");
         }, new HandlebarsTemplateEngine());
 
-        post("/Animals", (request, response) -> {
+        post("/animal", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             String name = request.queryParams("name");
             String type = request.queryParams("type");
@@ -64,10 +73,10 @@ public class App {
 //                Endangered.save();
             }
 
-            response.redirect("/Animals");
+            response.redirect("/animal");
             return null;
         }, new HandlebarsTemplateEngine());
-        get("/Animals-form", (request, response) -> {
+        get("/animal", (request, response) -> {
             Map<String, Object> model = new HashMap<String, Object>();
             return new ModelAndView(model, "animal.hbs");
         }, new HandlebarsTemplateEngine());

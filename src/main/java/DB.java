@@ -6,8 +6,8 @@ import java.net.URISyntaxException;
 import java.util.logging.Logger;
 
 public class DB {
+    public static Sql2o sql2o = new Sql2o("jdbc:postgresql://ndyklddhfhadqu:bd48dab52e2afab110d497f2ec39184ba60a06d447e14819a09c4a30c6a760e1@ec2-3-214-4-151.compute-1.amazonaws.com:5432/da4n8koktimghb");
     public static URI dbUri;
-    public static Sql2o sql2o;
     static Logger logger = (Logger) LoggerFactory.getLogger(DB.class);
     static {
 

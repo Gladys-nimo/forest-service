@@ -16,6 +16,7 @@ import java.util.List;
         public static final String AGE_ADULT="adult";
 
         public static final String ANIMAL_TYPE="endangered";
+
         public EndangeredAnimals(String name,String type,String health,String age) {
             super(name,type);
             this.type=type;

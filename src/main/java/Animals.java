@@ -1,4 +1,3 @@
-
 import org.sql2o.Connection;
 import org.sql2o.Sql2oException;
 
@@ -12,23 +11,17 @@ public class Animals implements DatabaseManagement {
     public String type;
     private String health;
     private String age;
-    public static final String ANIMAL_TYPE="normal";
+    public static final String ANIMAL_TYPE = "normal";
 
-
-
-    public Animals(String name,String type) {
+    public Animals(String name, String type, String health, String age) {
         this.name = name;
-        this.type=ANIMAL_TYPE;
-        this.health="";
-        this.age="";
+        this.type = ANIMAL_TYPE;
+        this.health = health;
+        this.age = age;
     }
 
-    public String getHealth() {
-        return health;
-    }
-
-    public String getAge() {
-        return age;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -39,30 +32,33 @@ public class Animals implements DatabaseManagement {
         return type;
     }
 
-    public int getId() {
-        return id;
+    public String getHealth() {
+        return health;
     }
 
-    public void save(){
-        if(this.name.equals("")||this.type.equals("")||this.name.equals(null)||this.type.equals(null)){
+    public String getAge() {
+        return age;
+    }
+
+    public void save() {
+        if (this.name.equals("") || this.type.equals("") || this.name.equals(null) || this.type.equals(null)) {
             throw new IllegalArgumentException("Fields cannot be empty");
         }
-        try (Connection con=DB.sql2o.open()){
+        try (Connection con = DB.sql2o.open()) {
 
 
-            String sql ="INSERT INTO animals (name,type) VALUES (:name,:type)";
+            String sql = "INSERT INTO animals (name,type) VALUES (:name,:type)";
 
-            this.id=(int) con.createQuery(sql,true)
-                    .addParameter("name",this.name)
-                    .addParameter("type",this.type)
+            this.id = (int) con.createQuery(sql, true)
+                    .addParameter("name", this.name)
+                    .addParameter("type", this.type)
                     .executeUpdate()
                     .getKey();
         }
 
     }
 
-
-    public void update(int id,String type,String health,String age) {
+    public void update(int id, String type, String health, String age) {
         try (Connection con = DB.sql2o.open()) {
             if (type.equals("")) {
                 throw new IllegalArgumentException("All fields must be filled");
@@ -89,22 +85,16 @@ public class Animals implements DatabaseManagement {
                         .executeUpdate();
             }
 
-        }catch (Sql2oException ex){
+        } catch (Sql2oException ex) {
             System.out.println(ex);
         }
     }
 
-
-
-
-
-
-
-    public static Animals find(int id){
-        try (Connection con=DB.sql2o.open()){
-            String sql= "SELECT * FROM animals WHERE id=:id";
-            Animals animal=  con.createQuery(sql)
-                    .addParameter("id",id)
+    public static Animals find(int id) {
+        try (Connection con = DB.sql2o.open()) {
+            String sql = "SELECT * FROM animals WHERE id=:id";
+            Animals animal = con.createQuery(sql)
+                    .addParameter("id", id)
                     .throwOnMappingFailure(false)
                     .executeAndFetchFirst(Animals.class);
             return animal;
@@ -113,35 +103,36 @@ public class Animals implements DatabaseManagement {
 
     }
 
-    public void delete(){
-        try (Connection con=DB.sql2o.open()){
+    public void delete() {
+        try (Connection con = DB.sql2o.open()) {
             String sql = "DELETE FROM animals WHERE id=:id";
             con.createQuery(sql)
-                    .addParameter("id",this.id)
+                    .addParameter("id", this.id)
                     .executeUpdate();
 
         }
     }
-    public static void deleteAll(){
-        try (Connection con=DB.sql2o.open()){
+
+    public static void deleteAll() {
+        try (Connection con = DB.sql2o.open()) {
             String sql = "DELETE FROM animals";
             con.createQuery(sql)
                     .executeUpdate();
-        }  catch (Sql2oException ex){
+        } catch (Sql2oException ex) {
             System.out.println(ex);
         }
 
     }
-    public static List<Animals> all(){
-        try (Connection con=DB.sql2o.open()) {
-            String sql ="SELECT * FROM animals";
+
+    public static List<Animals> all() {
+        try (Connection con = DB.sql2o.open()) {
+            String sql = "SELECT * FROM animals";
             return con.createQuery(sql)
                     .throwOnMappingFailure(false)
                     .executeAndFetch(Animals.class);
 
         }
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -157,82 +148,3 @@ public class Animals implements DatabaseManagement {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//import org.sql2o.Connection;
-//
-//import java.util.List;
-//
-//public abstract class Animal {
-//
-//    public String name;
-//    public String type;
-//    public int id;
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public String getType() {
-//        return type;
-//    }
-//    @Override
-//    public boolean equals(Object otherAnimal){
-//        if (!(otherAnimal instanceof Animal)) {
-//            return false;
-//        } else {
-//            Animal newAnimal = (Animal) otherAnimal;
-//            return this.getName().equals(newAnimal.getName()) &&
-//                    this.getType().equals(newAnimal.getType());
-//        }
-//    }
-//
-//    public void save() {
-//        try(Connection con = DB.sql2o.open()) {
-//            String sql = "INSERT INTO animals (name, type) VALUES (:name, :type)";
-//            this.id = (int) con.createQuery(sql, true)
-//                    .addParameter("name", this.name)
-//                    .addParameter("type", this.type)
-//                    .executeUpdate()
-//                    .getKey();
-//        }
-//    }
-//    public int getId() {
-//        return id;
-//    }
-//}
-//
-////    public abstract Animal save();
-////}
-//
-//
-//

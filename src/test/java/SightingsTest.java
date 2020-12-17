@@ -1,37 +1,64 @@
+import org.junit.Rule;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class SightingsTest {
-    @Test
-    public void sightingInstantiatesProperly() {
-        Sightings sightings = new Sightings("", "", 1);
-        assertEquals(true,sightings instanceof Sightings);
-    }
-    @Test
-    public void getsAnimalIdProperly() {
-        Sightings sightings = new Sightings("", "", 1);
-        assertEquals(1,sightings.getAnimalId() );
-    }
-    @Test
-    public void getsAnimalLocationProperly() {
-        Sightings sightings = new Sightings("", "r", 1);
-        assertEquals("",sightings.getLocation());
-    }
-    @Test
-    public void getsRangerNameProperly() {
-        Sightings sightings = new Sightings("", "", 1);
-        assertEquals("",sightings.getRangerName());
-    }
-//    @Test
-//    public void getsMoreThanOneSighting() {
-//        Sightings sightings = new Sightings("", "", 1);
-//        sightings.save();
-//        Sightings sightings1 = new Sightings(" ", "", 2);
-////        sightings1.save();
-////        assertTrue(Sightings.getallsightings().get(0).equals(sightings));
-////        assertTrue(Sightings.getallsightings().get(1).equals(sightings1));
 
 
+    @Rule
+    public DatabaseRule databaseRule=new DatabaseRule();
+
+    @Test
+    public void createInstanceOfSightingsClass_true() {
+
+        Sightings sighting= setUpNewSighting();
+        assertEquals(true,sighting instanceof Sightings);
     }
 
+    @Test
+    public void allInstancesAreSaved() {
+        Sightings sightings=setUpNewSighting();
+        Sightings otherSighting=new Sightings(-1,1,1);
+        try {
+            sightings.save();
+            otherSighting.save();
+            assertTrue(Sightings.find(sightings.getId()).equals(sightings));
+        }catch (IllegalArgumentException e){
+            System.out.println(e);
+        }
+    }
+    //
+    @Test
+    public void findSightingByID() {
+        Sightings sighting=setUpNewSighting();
+        sighting.save();
+        Sightings foundSighting=Sightings.find(sighting.getId());
+        assertTrue(foundSighting.equals(sighting));
+
+    }
+    @Test
+    public void deleteSightingByID() {
+        Sightings sighting=setUpNewSighting();
+        sighting.save();
+        sighting.delete();
+        assertEquals(null,Sightings.find(sighting.getId()));
+
+    }
+    @Test
+    public void deleteAll() {
+        Sightings sighting=setUpNewSighting();
+        Sightings otherSightings=setUpNewSighting();
+        sighting.save();
+        otherSightings.save();
+        Sightings.deleteAll();
+
+        assertEquals(0,Sightings.all().size());
+
+    }
+
+    //helper
+    private Sightings setUpNewSighting() {
+        return new Sightings(1,1,1);
+    }
+}

@@ -13,12 +13,14 @@ public class Animals implements DatabaseManagement {
     private String age;
     public static final String ANIMAL_TYPE = "normal";
 
-    public Animals(String name, String type, String health, String age) {
+    public Animals(String name, String type) {
         this.name = name;
         this.type = ANIMAL_TYPE;
         this.health = health;
         this.age = age;
     }
+
+
 
     public int getId() {
         return id;

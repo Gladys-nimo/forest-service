@@ -72,9 +72,9 @@
                 <configuration>
                     <jdkVersion>1.8</jdkVersion>
                     <!-- Change this to YOUR application name! -->
-                    <appName>gladys-forestservice</appName>
+                    <appName>gladysforestservice</appName>
                     <processTypes>
-                        <web>java -jar target/my-app-1.0-jar-with-dependencies.jar</web>
+                        <web>java -jar target/gladysforestservice-1.0-jar-with-dependencies.jar</web>
                     </processTypes>
                 </configuration>
             </plugin>

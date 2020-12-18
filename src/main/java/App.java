@@ -73,16 +73,16 @@ public class App {
             }catch (IllegalArgumentException e){
                 System.out.println(e);
             }
-
             return new ModelAndView(model,"location-form.hbs");
         },new HandlebarsTemplateEngine());
+
         get("/view/locations",(request, response) -> {
             Map<String,Object> model=new HashMap<String, Object>();
             model.put("locations",Locations.all());
             return new ModelAndView(model,"location-view.hbs");
         },new HandlebarsTemplateEngine());
 
-        get("/view/location/sightings/:id",(request, response) -> {
+        get("/view/locations/sighting/:id",(request, response) -> {
             Map<String,Object> model=new HashMap<String, Object>();
             int idOfLocation= Integer.parseInt(request.params(":id"));
             Locations foundLocation=Locations.find(idOfLocation);
@@ -150,7 +150,7 @@ public class App {
 
         get("/view/animals",(request, response) -> {
             Map<String,Object> model=new HashMap<String, Object>();
-            model.put("animals",Animals.all());
+            model.put("animal",Animals.all());
             return new ModelAndView(model,"animal-view.hbs");
         },new HandlebarsTemplateEngine());
 

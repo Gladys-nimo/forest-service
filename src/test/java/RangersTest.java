@@ -33,7 +33,7 @@ public class RangersTest {
 
     @Test
     public void emptyFieldsAreNotSaved() {
-        Rangers ranger=new Rangers("","","0713245678");
+        Rangers ranger=new Rangers("","","");
         try{
             ranger.save();
             assertTrue(Rangers.all().get(0).equals(ranger));
